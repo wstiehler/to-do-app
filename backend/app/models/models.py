@@ -12,3 +12,12 @@ class ToDoList(db.Model):
 
     def json(self):
         return {'id': self.id,'title': self.title, 'description': self.description, 'status': self.status}
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    def json(self):
+        return {'id': self.id,'username': self.username, 'password': self.password}

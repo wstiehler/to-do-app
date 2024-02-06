@@ -1,16 +1,19 @@
-from app.models import db, ToDoList
+from app.models.models import db, ToDoList
 from flask import jsonify, request, make_response
+from flask_jwt_extended import jwt_required
 
+@jwt_required()
 def create_todolist():
     try:
         data = request.get_json()
         new_todolist = ToDoList(title=data['title'], description=data['description'], status=data['status'])
         db.session.add(new_todolist)
         db.session.commit()
-        return make_response(jsonify({'message': 'todolist created'}), 201)
-    except:
-        return make_response(jsonify({'message': 'error creating todolist'}), 500)
+        return make_response(jsonify({'id': new_todolist.id, 'message': 'todolist created'}), 201)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error creating todolist', 'error': str(e)}), 500)
 
+@jwt_required()
 def get_todolists():
     try:
         todolists = ToDoList.query.all()
@@ -18,6 +21,7 @@ def get_todolists():
     except:
         return make_response(jsonify({'message': 'error getting todolist'}), 500)
 
+@jwt_required()
 def get_todolist(id):
     try:
         todolist = ToDoList.query.filter_by(id=id).first()
@@ -26,7 +30,8 @@ def get_todolist(id):
         return make_response(jsonify({'message': 'todolist not found'}), 404)
     except:
         return make_response(jsonify({'message': 'error getting todolist'}), 500)
-    
+
+@jwt_required()
 def update_todolist(id):
     try:
         todolist = ToDoList.query.filter_by(id=id).first()
@@ -41,6 +46,7 @@ def update_todolist(id):
     except:
         return make_response(jsonify({'message': 'error updating todolist'}), 500)
 
+@jwt_required()
 def delete_user(id):
     try:
         todolist = ToDoList.query.filter_by(id=id).first()
