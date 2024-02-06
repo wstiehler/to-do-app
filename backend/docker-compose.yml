@@ -9,7 +9,7 @@ services:
     environment:
       - DB_URL=postgresql://postgres:postgres@postgres_db:5432/postgres
     depends_on:
-      - flask_db
+      - postgres_db
 
   postgres_db:
     container_name: postgres_db
