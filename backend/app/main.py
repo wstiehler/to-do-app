@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from app.config.config import Config
 from app.models.models import db
 from app.routes.routes import routes_blueprint
@@ -8,12 +9,15 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Inicialize o JWTManager
+    allowed_origins = [
+        "*"
+    ]
+    CORS(app, origins=allowed_origins)
+
     jwt = JWTManager(app)
     
     db.init_app(app)
     
-    # Mova db.create_all() para dentro do contexto de aplicativo Flask
     with app.app_context():
         db.create_all()
 

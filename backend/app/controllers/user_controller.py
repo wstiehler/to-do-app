@@ -12,7 +12,11 @@ def login():
 
     if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
         access_token = create_access_token(identity=user.id)
-        return jsonify(access_token=access_token), 200
+        return jsonify({
+            "access_token": access_token,
+            "user_id": user.id,
+            "username": user.username
+        }), 200
     else:
         return jsonify({"msg": "Invalid username or password"}), 401
 
@@ -28,7 +32,6 @@ def register():
     if existing_user:
         return jsonify({"msg": "Username already exists"}), 400
 
-    # Hash da senha usando bcrypt antes de salvar no banco de dados
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     new_user = User(username=username, password=hashed_password.decode('utf-8'))
     db.session.add(new_user)
