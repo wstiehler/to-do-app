@@ -2,10 +2,12 @@ import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 
 const useUpdateTodoByCompanyId = async (formData, Todo_id) => {
+  const token = window.sessionStorage.getItem('accessToken')
+
   try {
     const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolist/${Todo_id}`, formData, {
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+        'Authorization': `Bearer ${token}`
       }
     });
 

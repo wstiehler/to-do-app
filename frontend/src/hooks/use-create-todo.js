@@ -3,13 +3,15 @@ import { showSuccessNotification, showErrorNotification } from 'src/components/n
 
 const useCreateTodo = async (formData) => {
 
+  const token = window.sessionStorage.getItem('accessToken')
+
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BACKEND}/todolist`,
       formData,
       {
         headers: {
-          'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+          'Authorization': `Bearer ${token}`
       }
       }
     );
