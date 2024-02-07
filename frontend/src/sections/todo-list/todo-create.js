@@ -7,11 +7,15 @@ import { Col, Form, Drawer, Input, Row, Radio, Divider } from "antd";
 import CharacterCountInput from "src/components/caracter-count-input";
 import useCreateTodo from "src/hooks/use-create-todo";
 import useUpdateTodoById from "src/hooks/use-update-todo-by-id";
+import { useAuth } from '../../hooks/use-auth';
+
 
 export const TodoCreate = (props) => {
   const { isEditMode = props.mode === "edit", isDetailViewMode = props.mode === "details" } = props;
 
   const [form] = Form.useForm();
+
+  const { token } = useAuth();
 
   const initialValues = {
     id: props.editingTodo?.id || "",
@@ -39,9 +43,9 @@ export const TodoCreate = (props) => {
 
       if (isEditMode) {
         const todoId = props.editingTodo?.id;
-        updateHook = useUpdateTodoById(parsedValues, todoId);
+        updateHook = useUpdateTodoById(parsedValues, todoId, token);
       } else {
-        createHook = useCreateTodo(parsedValues);
+        createHook = useCreateTodo(parsedValues, token);
         form.resetFields();
       }
     } catch (error) {

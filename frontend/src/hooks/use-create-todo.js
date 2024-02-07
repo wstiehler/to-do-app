@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 
-const useCreateTodo = async (formData) => {
-
-  const token = window.sessionStorage.getItem('accessToken')
-
+const useCreateTodo = async (formData, token) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BACKEND}/todolist`,
@@ -12,7 +9,7 @@ const useCreateTodo = async (formData) => {
       {
         headers: {
           'Authorization': `Bearer ${token}`
-      }
+        }
       }
     );
 

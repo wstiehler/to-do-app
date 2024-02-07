@@ -13,7 +13,7 @@ lint:
 	npm run lint
 
 start-frontend:
-	docker-compose up -d
+	docker-compose up -d --build
 
 stop:
 	docker-compose down -v

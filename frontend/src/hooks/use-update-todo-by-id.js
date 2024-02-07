@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 
-const useUpdateTodoByCompanyId = async (formData, Todo_id) => {
-  const token = window.sessionStorage.getItem('accessToken')
+const useUpdateTodoByCompanyId = async (formData, Todo_id, token) => {
 
   try {
     const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolist/${Todo_id}`, formData, {
