@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from './use-auth';
 
 export const useFetchTodo = () => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(null);
+
+    const { user, token } = useAuth();
 
     useEffect(() => {
         if (token) {
@@ -11,8 +14,8 @@ export const useFetchTodo = () => {
                 try {
                     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolists`, {
                         headers: {
-                            'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
-                          }
+                            'Authorization': `Bearer ${token}`
+                        }
                     });
                     const result = await response.json();
                     setData(result);
@@ -25,7 +28,7 @@ export const useFetchTodo = () => {
 
             fetchData();
         }
-    }, []);
+    }, [user, token]);
 
     return { data, isLoading, isError };
 };
