@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  candystoreportal:
+    container_name: portal-candystore
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env.production
+    volumes:
+    - ../:/app
+    ports:
+    - 3000:3000
+    networks: 
+      - candystore
+
+networks:
+  candystore:
+    external:
+      name: candystore

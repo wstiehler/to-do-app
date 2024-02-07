@@ -1,0 +1,2 @@
+- Criar uma verificação se a pessoa realmente deseja excluir o produto. 
+- Verificar se a resposta foi 200 ou 201 no retorno do axios, e tratar. 
