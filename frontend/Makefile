@@ -1,5 +1,3 @@
-include Makefile.localstack.mk
-
 setup:
 	sudo apt-get install jq
 	npm install
@@ -14,14 +12,8 @@ audit:
 lint: 
 	npm run lint
 
-test:
-	npm run test
-
-test-ci:
-	npm run test:cov:ci
-
 start:
-	docker-compose up -d && docker-compose logs -f
+	docker-compose up -d --build && docker-compose logs -f
 
 stop:
 	docker-compose down -v

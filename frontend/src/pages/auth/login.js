@@ -62,7 +62,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Login | Candy Store</title>
+        <title>Login | My ToDo List</title>
       </Head>
       <Box
         sx={{
@@ -138,15 +138,9 @@ const Page = () => {
                   Continuar
                 </Button>
 
-                {process.env.NODE_ENV === "development" ? (
-                  <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
-                    Pular autenticação
-                  </Button>
-                ) : null}
-
                 <Alert color="primary" severity="info" sx={{ mt: 3 }}>
                   <div>
-                    Caso não tenha uma conta, envie um email para <b>account@evoluinfo.com.br</b>!
+                    Caso não tenha uma conta, envie um email para <b>account@teste.com.br</b>!
                   </div>
                 </Alert>
               </form>

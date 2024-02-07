@@ -17,12 +17,22 @@ const initialState = {
 
 const handlers = {
   [HANDLERS.INITIALIZE]: (state, action) => {
+    const user = action.payload;
+
     return {
       ...state,
-      isAuthenticated: true,
-      isLoading: false,
-      user: action.payload.user,
-      token: action.payload.token
+      ...(
+        user
+          ? ({
+            isAuthenticated: true,
+            isLoading: false,
+            user: action.payload.user,
+            token: action.payload.token
+          })
+          : ({
+            isLoading: false
+          })
+      )
     };
   },
   [HANDLERS.SIGN_IN]: (state, action) => {
@@ -54,26 +64,41 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
-  useEffect(() => {
-    const initializeAuth = async () => {
-      let accessToken = null;
-      try {
-        accessToken = sessionStorage.getItem('accessToken');
-      } catch (error) {
-        console.error('Error retrieving accessToken:', error);
-      }
-      if (accessToken) {
-        const userData = JSON.parse(sessionStorage.getItem('userData'));
-        dispatch({ type: HANDLERS.INITIALIZE, payload: { user: userData, token: accessToken } });
-      } else {
-        dispatch({ type: HANDLERS.SIGN_OUT });
-      }
-    };
-
-    if (!initialized.current) {
-      initializeAuth();
-      initialized.current = true;
+  const initialize = async () => {
+    if (initialized.current) {
+      return;
     }
+
+    initialized.current = true;
+
+    let isAuthenticated = false;
+
+    try {
+      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
+    } catch (err) {
+      console.error(err);
+    }
+
+    if (isAuthenticated) {
+      if (user) {
+        dispatch({
+          type: HANDLERS.INITIALIZE,
+          payload: user
+        });
+      } else {
+        dispatch({
+          type: HANDLERS.INITIALIZE
+        });
+      }
+    } else {
+      dispatch({
+        type: HANDLERS.INITIALIZE
+      });
+    }
+  };
+
+  useEffect(() => {
+    initialize();
   }, []);
 
   const signIn = async (email, password) => {
@@ -103,20 +128,22 @@ export const AuthProvider = (props) => {
     }
   };
 
+  const signUp = async (email, name, password, company_id) => {
+    throw new Error('Sign up is not implemented');
+  };
+
   const signOut = () => {
     try {
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('userData');
+      window.sessionStorage.setItem('authenticated', 'false');
+      window.sessionStorage.removeItem('accessToken');
+      window.sessionStorage.removeItem('userData');
     } catch (err) {
       console.error(err);
     }
 
-    dispatch({ type: HANDLERS.SIGN_OUT });
-  };
-
-
-  const signUp = async (username, password, access_token) => {
-    throw new Error('Sign up is not implemented');
+    dispatch({
+      type: HANDLERS.SIGN_OUT
+    });
   };
 
   return (

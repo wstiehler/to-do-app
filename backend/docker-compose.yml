@@ -10,6 +10,8 @@ services:
       - DB_URL=postgresql://postgres:postgres@postgres_db:5432/postgres
     depends_on:
       - postgres_db
+    networks: 
+      - mytodo
 
   postgres_db:
     container_name: postgres_db
@@ -22,6 +24,13 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks: 
+      - mytodo
 
 volumes:
   pgdata: {}
+  
+networks:
+  mytodo:
+    external:
+      name: mytodo
