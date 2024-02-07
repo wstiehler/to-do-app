@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 
-const useUpdateProductByCompanyId = async (formData, product_id) => {
+const useUpdateTodoByCompanyId = async (formData, Todo_id) => {
   try {
-    const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolist/${product_id}`, formData, {
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolist/${Todo_id}`, formData, {
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
       }
@@ -19,4 +19,4 @@ const useUpdateProductByCompanyId = async (formData, product_id) => {
   }
 };
 
-export default useUpdateProductByCompanyId;
+export default useUpdateTodoByCompanyId;

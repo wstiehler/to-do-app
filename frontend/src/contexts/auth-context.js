@@ -68,28 +68,27 @@ export const AuthProvider = (props) => {
     if (initialized.current) {
       return;
     }
-
+  
     initialized.current = true;
-
+  
     let isAuthenticated = false;
-
+  
     try {
       isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
     } catch (err) {
       console.error(err);
     }
-
+  
     if (isAuthenticated) {
-      if (user) {
-        dispatch({
-          type: HANDLERS.INITIALIZE,
-          payload: user
-        });
-      } else {
-        dispatch({
-          type: HANDLERS.INITIALIZE
-        });
-      }
+      // Obter os detalhes do usuário e token do sessionStorage
+      const userData = JSON.parse(sessionStorage.getItem('userData'));
+      dispatch({
+        type: HANDLERS.INITIALIZE,
+        payload: {
+          user: userData.user,
+          token: userData.access_token
+        }
+      });
     } else {
       dispatch({
         type: HANDLERS.INITIALIZE
@@ -111,7 +110,7 @@ export const AuthProvider = (props) => {
       if (response.data.access_token) {
         const accessToken = response.data.access_token;
         try {
-          sessionStorage.setItem('accessToken', accessToken);
+          sessionStorage.setItem('authenticated', 'true'); // Definir como autenticado
           sessionStorage.setItem('userData', JSON.stringify(response.data));
         } catch (err) {
           console.error(err);
@@ -127,24 +126,25 @@ export const AuthProvider = (props) => {
       throw new Error('Please check your email and password');
     }
   };
-
-  const signUp = async (email, name, password, company_id) => {
-    throw new Error('Sign up is not implemented');
-  };
-
+  
   const signOut = () => {
     try {
-      window.sessionStorage.setItem('authenticated', 'false');
+      window.sessionStorage.removeItem('authenticated'); // Remover após logout
       window.sessionStorage.removeItem('accessToken');
       window.sessionStorage.removeItem('userData');
     } catch (err) {
       console.error(err);
     }
-
+  
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
   };
+
+  const signUp = async (email, name, password, company_id) => {
+    throw new Error('Sign up is not implemented');
+  };
+
 
   return (
     <AuthContext.Provider

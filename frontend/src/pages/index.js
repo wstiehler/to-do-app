@@ -9,16 +9,16 @@ import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { applyPagination } from "src/utils/apply-pagination";
 
-import { ProductsTable } from "src/sections/todo-list/products-table";
-import { ProductCreate } from "src/sections/todo-list/product-create";
+import { TodosTable } from "src/sections/todo-list/todo-table";
+import { TodoCreate } from "src/sections/todo-list/todo-create";
 
-import { useFetchProductsByCompanyId } from "src/hooks/use-fetch-products-by-companyid";
+import { useFetchTodosByCompanyId, useFetchTodo } from "src/hooks/use-fetch-todo";
 
 const Page = () => {
-  const { data, isLoading, isError } = useFetchProductsByCompanyId(); 
-  const [isProductCreateOpen, setProductCreateOpen] = useState(false);
+  const { data, isLoading, isError } = useFetchTodo(); 
+  const [isTodoCreateOpen, setTodoCreateOpen] = useState(false);
   
-  const useProducts = (page, rowsPerPage) => {
+  const useTodos = (page, rowsPerPage) => {
     return useMemo(() => {
       if (data && Array.isArray(data)) {
         return applyPagination(data, page, rowsPerPage);
@@ -36,9 +36,9 @@ const Page = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const todoLists = useProducts(page, rowsPerPage);
+  const todoLists = useTodos(page, rowsPerPage);
   const todoListsIds = useCustomerIds(todoLists);
-  const productsSelection = useSelection(todoListsIds);
+  const todosSelection = useSelection(todoListsIds);
 
   const count = data && data ? data.length : 0;
 
@@ -94,7 +94,7 @@ const Page = () => {
               </Stack>
               <div>
                 <Button
-                  onClick={() => setProductCreateOpen(true)}
+                  onClick={() => setTodoCreateOpen(true)}
                   startIcon={
                     <SvgIcon fontSize="small">
                       <PlusIcon />
@@ -106,23 +106,23 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <ProductCreate open={isProductCreateOpen} onClose={() => setProductCreateOpen(false)} />
+            <TodoCreate open={isTodoCreateOpen} onClose={() => setTodoCreateOpen(false)} />
             {isLoading && <Skeleton active paragraph={{ rows: 10 }} />}
             {isError && <Empty />}
             {data && (
               <>
-                <ProductsTable
+                <TodosTable
                   count={count}
                   items={todoLists}
-                  onDeselectAll={productsSelection.handleDeselectAll}
-                  onDeselectOne={productsSelection.handleDeselectOne}
+                  onDeselectAll={todosSelection.handleDeselectAll}
+                  onDeselectOne={todosSelection.handleDeselectOne}
                   onPageChange={handlePageChange}
                   onRowsPerPageChange={handleRowsPerPageChange}
-                  onSelectAll={productsSelection.handleSelectAll}
-                  onSelectOne={productsSelection.handleSelectOne}
+                  onSelectAll={todosSelection.handleSelectAll}
+                  onSelectOne={todosSelection.handleSelectOne}
                   page={page}
                   rowsPerPage={rowsPerPage}
-                  selected={productsSelection.selected}
+                  selected={todosSelection.selected}
                 />
               </>
             )}

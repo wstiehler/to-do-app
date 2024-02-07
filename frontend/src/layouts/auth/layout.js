@@ -83,7 +83,7 @@ export const Layout = (props) => {
                 sx={{ color: '#15B79E' }}
                 target="_blank"
               >
-                Candy Store
+                MyTo-Do List
               </Box>
             </Typography>
             <Typography
@@ -91,12 +91,8 @@ export const Layout = (props) => {
               sx={{ mb: 3 }}
               variant="subtitle1"
             >
-              A plataforma onde a sua loja física, cresce no on-line rapidamente.
+              A organização do seu dia, começa aqui!
             </Typography>
-            <img
-              alt=""
-              src="/assets/auth-illustration.svg"
-            />
           </Box>
         </Grid>
       </Grid>

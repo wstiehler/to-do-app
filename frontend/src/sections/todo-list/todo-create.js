@@ -5,22 +5,22 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import PencilSquareIcon from "@heroicons/react/24/solid/PencilSquareIcon";
 import { Col, Form, Drawer, Input, Row, Radio, Divider } from "antd";
 import CharacterCountInput from "src/components/caracter-count-input";
-import useCreateProductByCompanyId from "src/hooks/use-create-product-by-companyid";
-import useUpdateProductByCompanyId from "src/hooks/use-update-product-by-id";
+import useCreateTodo from "src/hooks/use-create-todo";
+import useUpdateTodoById from "src/hooks/use-update-todo-by-id";
 
-export const ProductCreate = (props) => {
+export const TodoCreate = (props) => {
   const { isEditMode = props.mode === "edit", isDetailViewMode = props.mode === "details" } = props;
 
   const [form] = Form.useForm();
 
   const initialValues = {
-    id: props.editingProduct?.id || "",
-    title: props.editingProduct?.title || "",
-    description: props.editingProduct?.description || "",
-    status: props.editingProduct?.status || "Ativo",
+    id: props.editingTodo?.id || "",
+    title: props.editingTodo?.title || "",
+    description: props.editingTodo?.description || "",
+    status: props.editingTodo?.status || "Ativo",
   };
   
-  const defaultProductValues = {
+  const defaultTodoValues = {
     title: "",
     description: "",
     status: "Ativo",
@@ -33,15 +33,15 @@ export const ProductCreate = (props) => {
       const validatedValues = await form.validateFields();
 
       const parsedValues = {
-        ...defaultProductValues,
+        ...defaultTodoValues,
         ...validatedValues,
       };
 
       if (isEditMode) {
-        const todoId = props.editingProduct?.id;
-        updateHook = useUpdateProductByCompanyId(parsedValues, todoId);
+        const todoId = props.editingTodo?.id;
+        updateHook = useUpdateTodoById(parsedValues, todoId);
       } else {
-        createHook = useCreateProductByCompanyId(parsedValues);
+        createHook = useCreateTodo(parsedValues);
         form.resetFields();
       }
     } catch (error) {
@@ -146,7 +146,7 @@ export const ProductCreate = (props) => {
   );
 };
 
-ProductCreate.propTypes = {
+TodoCreate.propTypes = {
   isEditMode: PropTypes.func,
   isDetailViewMode: PropTypes.func,
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './use-auth';
 
-export const useFetchProductsByCompanyId = () => {
+export const useFetchTodo = () => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(null);

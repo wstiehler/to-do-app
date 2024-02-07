@@ -30,7 +30,7 @@ const Page = () => {
       submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup.string().max(255).required("Email is required"),
+      email: Yup.string().max(255).required("Username is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async (values, helpers) => {
@@ -84,21 +84,9 @@ const Page = () => {
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography variant="h4">Login</Typography>
-              <Typography color="text.secondary" variant="body2">
-                Não possui uma conta? &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/register"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Criar minha conta
-                </Link>
-              </Typography>
             </Stack>
             <Tabs onChange={handleMethodChange} sx={{ mb: 3 }} value={method}>
-              <Tab label="Email" value="email" />
-              <Tab label="Phone Number" value="phoneNumber" />
+              <Tab label="Username" value="email" />
             </Tabs>
             {method === "email" && (
               <form noValidate onSubmit={formik.handleSubmit}>
@@ -107,7 +95,7 @@ const Page = () => {
                     error={!!(formik.touched.email && formik.errors.email)}
                     fullWidth
                     helperText={formik.touched.email && formik.errors.email}
-                    label="Email Address"
+                    label="Username"
                     name="email"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
@@ -126,9 +114,6 @@ const Page = () => {
                     value={formik.values.password}
                   />
                 </Stack>
-
-                <FormHelperText sx={{ mt: 1 }}>Optionally you can skip.</FormHelperText>
-
                 {formik.errors.submit && (
                   <Typography color="error" sx={{ mt: 3 }} variant="body2">
                     {formik.errors.submit}
@@ -144,16 +129,6 @@ const Page = () => {
                   </div>
                 </Alert>
               </form>
-            )}
-            {method === "phoneNumber" && (
-              <div>
-                <Typography sx={{ mb: 1 }} variant="h6">
-                  Indisponível no momento
-                </Typography>
-                <Typography color="text.secondary">
-                  Nesse momento, essa funcionalidade ainda não foi implementada.
-                </Typography>
-              </div>
             )}
           </div>
         </Box>

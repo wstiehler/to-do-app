@@ -12,8 +12,8 @@ audit:
 lint: 
 	npm run lint
 
-start:
-	docker-compose up -d --build && docker-compose logs -f
+start-frontend:
+	docker-compose up -d
 
 stop:
 	docker-compose down -v

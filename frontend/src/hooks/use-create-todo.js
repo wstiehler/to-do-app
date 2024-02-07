@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 
-const useCreateProductByCompanyId = async (formData) => {
+const useCreateTodo = async (formData) => {
 
   try {
     const response = await axios.post(
@@ -24,4 +24,4 @@ const useCreateProductByCompanyId = async (formData) => {
   }
 };
 
-export default useCreateProductByCompanyId;
+export default useCreateTodo;

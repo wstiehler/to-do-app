@@ -3,13 +3,13 @@ import axios from 'axios';
 import { showSuccessNotification, showErrorNotification } from 'src/components/notification';
 import { useAuth } from './use-auth';
 
-const useProductInactivateHandler = () => {
+const useTodoActiveHandler = () => {
   const { token } = useAuth();
 
-  const handleProductInactivate = useCallback(async (todoList) => {
+  const handleTodoActive = useCallback(async (todoList) => {
 
     const todoListNew = { ...todoList };
-    todoListNew.status = "Completed"
+    todoListNew.status = "Active"
 
     try {
       const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BACKEND}/todolist/${todoList.id}`, todoListNew, {
@@ -28,7 +28,7 @@ const useProductInactivateHandler = () => {
     }
   }, []);
 
-  return handleProductInactivate;
+  return handleTodoActive;
 };
 
-export default useProductInactivateHandler;
+export default useTodoActiveHandler;

@@ -19,13 +19,13 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Scrollbar } from "src/components/scrollbar";
-import { ProductCreate } from "./product-create";
+import { TodoCreate } from "./todo-create";
 
-import useDeleteProductById from "src/hooks/use-delete-product-by-id";
-import useProductInactivateHandler from "src/hooks/use-inactivate-product-by-id";
-import useProductActivateHandler from "src/hooks/use-activate-product-by-id";
+import useDeleteTodoById from "src/hooks/use-delete-todo-by-id";
+import useTodoInactivateHandler from "src/hooks/use-inactivate-todo-by-id";
+import useTodoActivateHandler from "src/hooks/use-activate-todo-by-id";
 
-export const ProductsTable = (props) => {
+export const TodosTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -40,22 +40,22 @@ export const ProductsTable = (props) => {
     selected = [],
   } = props;
 
-  const handleProductInactivate = useProductInactivateHandler();
+  const handleTodoInactivate = useTodoInactivateHandler();
 
-  const handleProductActivate = useProductActivateHandler();
+  const handleTodoActivate = useTodoActivateHandler();
 
 
-  const handleProductDelete = useDeleteProductById();
+  const handleTodoDelete = useDeleteTodoById();
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
 
-  const [isProductEditOpen, setProductEditOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [isTodoEditOpen, setTodoEditOpen] = useState(false);
+  const [editingTodo, setEditingTodo] = useState(null);
 
-  const handleProductEditOpen = (todolist) => {
-    setEditingProduct(todolist);
-    setProductEditOpen(true);
+  const handleTodoEditOpen = (todolist) => {
+    setEditingTodo(todolist);
+    setTodoEditOpen(true);
   };
 
   return (
@@ -121,25 +121,25 @@ export const ProductsTable = (props) => {
                     <TableCell width={"200px"}>
                       {todoList.status === "Active" || todoList.status === "Pending" ? (
                         <Tooltip title="Completar">
-                          <IconButton onClick={() => handleProductInactivate(todoList)}>
+                          <IconButton onClick={() => handleTodoInactivate(todoList)}>
                             <EventBusyIcon />
                           </IconButton>
                         </Tooltip>
                       ) : (
                         <Tooltip title="Ativar">
-                          <IconButton onClick={() => handleProductActivate(todoList)}>
+                          <IconButton onClick={() => handleTodoActivate(todoList)}>
                             <EventAvailableIcon />
                           </IconButton>
                         </Tooltip>
                       )}
                       <Tooltip title="Editar">
-                        <IconButton onClick={() => handleProductEditOpen(todoList)}>
+                        <IconButton onClick={() => handleTodoEditOpen(todoList)}>
                           <ModeEditIcon />
                         </IconButton>
                       </Tooltip>
 
                       <Tooltip title="Deletar">
-                        <IconButton onClick={() => handleProductDelete(todoList)}>
+                        <IconButton onClick={() => handleTodoDelete(todoList)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
@@ -148,15 +148,15 @@ export const ProductsTable = (props) => {
                 );
               })}
             </TableBody>
-            {isProductEditOpen && (
-              <ProductCreate
-                open={isProductEditOpen}
+            {isTodoEditOpen && (
+              <TodoCreate
+                open={isTodoEditOpen}
                 onClose={() => {
-                  setProductEditOpen(false);
-                  setEditingProduct(null);
+                  setTodoEditOpen(false);
+                  setEditingTodo(null);
                 }}
                 mode="edit"
-                editingProduct={editingProduct}
+                editingTodo={editingTodo}
               />
             )}
           </Table>
@@ -175,7 +175,7 @@ export const ProductsTable = (props) => {
   );
 };
 
-ProductsTable.propTypes = {
+TodosTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,
