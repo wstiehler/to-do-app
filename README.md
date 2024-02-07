@@ -26,6 +26,12 @@ Para criar um usuário no software, siga as instruções abaixo:
 
 4. No frontend, insira o usuário e a senha criados para fazer login no software.
 
+5. Caso for testar os endpoints pelo Postman, é necessário adicionar o novo access_token. Para adicionar, clique em ApiDocumentation -> Variables -> token.
+
+### Diagrama de Arquitetura
+
+![Diagrama de Arquitetura](docs/diagram.png)
+
 ### Sugestões de Melhorias
 
 #### Backend:
