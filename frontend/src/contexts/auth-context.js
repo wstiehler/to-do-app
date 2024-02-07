@@ -112,6 +112,7 @@ export const AuthProvider = (props) => {
         try {
           sessionStorage.setItem('authenticated', 'true'); // Definir como autenticado
           sessionStorage.setItem('userData', JSON.stringify(response.data));
+          sessionStorage.setItem('accessToken', JSON.stringify(response.data.access_token));
         } catch (err) {
           console.error(err);
         }
