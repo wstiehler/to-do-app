@@ -22,7 +22,7 @@ Para criar um usuário no software, siga as instruções abaixo:
    
 2. Importe o arquivo de coleção de requisições fornecido (docs/documentation.postman_collection.json).
 
-3. Procure pela requisição denominada "Login" e faça um POST na API com os detalhes do usuário a ser criado.
+3. Procure pela requisição denominada "Create User" e faça um POST na API com os detalhes do usuário a ser criado.
 
 4. No frontend, insira o usuário e a senha criados para fazer login no software.
 
